@@ -3,7 +3,7 @@
 root=$(realpath $(dirname "$0")/..)
 cd $root
 
-prev=$(ls snapshots | sort -r | head)
+prev=$(ls snapshots | sort -r | head -n1 | xargs)
 today=$(date -Idate)
 
 download_dir="$root"/snapshots/"$today"
