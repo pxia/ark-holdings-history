@@ -4,7 +4,7 @@ root=$(realpath $(dirname "$0")/..)
 cd $root
 
 prev=$(ls snapshots | sort -r | head -n1 | xargs)
-today=$(date -Idate)
+today=$(TZ='America/Los_Angeles' date -Idate)
 
 download_dir="$root"/snapshots/"$today"
 mkdir -p "$download_dir"
@@ -29,4 +29,6 @@ for fund in ark{k,q,w,g,l}; do
  scripts/csv_diff.py -l snapshots/"$prev"/$fund.csv -r snapshots/"$today"/$fund.csv -o "$changes_dir"/$fund.csv
 done
 
-scripts/csv_diff.py -l snapshots/"$prev"/ark{k,q,w,g,l}.csv -r snapshots/"$today"/ark{k,q,w,g,l}.csv -o "$changes_dir"/combined.csv
+scripts/csv_diff.py -l snapshots/"$prev"/ark{k,q,w,g,l}.csv -r snapshots/"$today"/ark{k,q,w,g,l}.csv -o "$changes_dir"/combined_long.csv
+scripts/csv_diff.py -r snapshots/"$prev"/ark{k,q,w,g,l}.csv -l snapshots/"$today"/ark{k,q,w,g,l}.csv -o "$changes_dir"/combined_short.csv
+
