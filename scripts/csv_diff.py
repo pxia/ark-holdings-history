@@ -26,13 +26,22 @@ class Differ:
     def diff(self, left_files, right_files):
         return self.read_files(right_files) - self.read_files(left_files)
 
-    def diff_to_csv(self, left_files, right_files, outfile):
-        res = self.diff(left_files, right_files)
+    def diff_to_csv(self, left_files, right_files, outfile, reverse):
+        if reverse:
+            left = self.read_files(left_files)
+            right = self.read_files(right_files)
+        else:
+            right = self.read_files(right_files)
+            left = self.read_files(left_files)
+
+        res = right - left
+
         fieldnames = ['date', 'company', 'ticker', 'cusip', 'change', 'new_shares']
         with open(outfile, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for (cusip, change) in res.items():
+                holdings = left[cusip] if reverse else right[cusip]
                 source_row = self.cusip_to_row_[cusip]
                 writer.writerow({
                     'date': source_row['date'],
@@ -40,7 +49,7 @@ class Differ:
                     'ticker': source_row['ticker'],
                     'cusip': cusip,
                     'change': change,
-                    'new_shares': source_row['shares'],
+                    'new_shares': holdings,
                     })
 
     def cusip_to_row(self):
@@ -62,10 +71,13 @@ def main():
     parser.add_argument(
         "-o", "--output", default="", help="Output file"
     )
+    parser.add_argument(
+        "-n", "--left-is-final", default=False, help="Use left file as final state"
+    )
     args = parser.parse_args()
 
     d = Differ()
-    d.diff_to_csv(args.left_files, args.right_files, args.output)
+    d.diff_to_csv(args.left_files, args.right_files, args.output, args.left_is_final)
 
 
 if __name__ == "__main__":
