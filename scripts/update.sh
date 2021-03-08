@@ -15,7 +15,7 @@ curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_INNOVATION_
 curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_AUTONOMOUS_TECHNOLOGY_&_ROBOTICS_ETF_ARKQ_HOLDINGS.csv' -o arkq.csv
 curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_NEXT_GENERATION_INTERNET_ETF_ARKW_HOLDINGS.csv' -o arkw.csv
 curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_GENOMIC_REVOLUTION_MULTISECTOR_ETF_ARKG_HOLDINGS.csv' -o arkg.csv
-curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv' -o arkl.csv
+curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_FINTECH_INNOVATION_ETF_ARKF_HOLDINGS.csv' -o arkf.csv
 
 curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/THE_3D_PRINTING_ETF_PRNT_HOLDINGS.csv' -o prnt.csv
 curl -L 'https://ark-funds.com/wp-content/fundsiteliterature/csv/ARK_ISRAEL_INNOVATIVE_TECHNOLOGY_ETF_IZRL_HOLDINGS.csv' -o izrl.csv
@@ -29,6 +29,6 @@ for fund in ark{k,q,w,g,l}; do
  scripts/csv_diff.py -l snapshots/"$prev"/$fund.csv -r snapshots/"$today"/$fund.csv -o "$changes_dir"/$fund.csv
 done
 
-scripts/csv_diff.py -l snapshots/"$prev"/ark{k,q,w,g,l}.csv -r snapshots/"$today"/ark{k,q,w,g,l}.csv -o "$changes_dir"/combined_long.csv
-scripts/csv_diff.py -r snapshots/"$prev"/ark{k,q,w,g,l}.csv -l snapshots/"$today"/ark{k,q,w,g,l}.csv -o "$changes_dir"/combined_short.csv
+scripts/csv_diff.py -l snapshots/"$prev"/ark{k,q,w,g,f}.csv -r snapshots/"$today"/ark{k,q,w,g,f}.csv -o "$changes_dir"/combined_long.csv
+scripts/csv_diff.py -r snapshots/"$prev"/ark{k,q,w,g,f}.csv -l snapshots/"$today"/ark{k,q,w,g,f}.csv -o "$changes_dir"/combined_short.csv
 
